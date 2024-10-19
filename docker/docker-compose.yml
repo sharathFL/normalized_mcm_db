@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Finiteloop123
+      POSTGRES_DB: norm_db_00
+    ports:
+      - "5435:5432"    # Expose external port 5435, internally use 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+  python-app:
+    build:
+      context: .   # Path to your Dockerfile and create_db.py
+    container_name: python-db-init
+    depends_on:
+      - postgres   # Ensure PostgreSQL is up before running the Python script
+    networks:
+      - my-network
+    volumes:
+      - ..:/code
+    stdin_open: true  # Keep stdin open so we can attach later
+    tty: true         # Allocate a pseudo-TTY for interactive shell
+    command: /bin/bash  # Start a bash shell
+
+networks:
+  my-network:
+
+volumes:
+  postgres_data:

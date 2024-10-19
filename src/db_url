@@ -1,0 +1,1 @@
+DATABASE_URL = "postgresql://postgres:Finiteloop123@localhost:5435/your_database"
