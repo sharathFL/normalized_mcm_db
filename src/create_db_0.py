@@ -21,6 +21,14 @@ class SensorType(Base):
     sensor_type_id = Column(Integer, primary_key=True)
     sensor_type_name = Column(String, nullable=False)
 
+class File(Base):
+    __tablename__ = 'file'
+    file_id = Column(Integer, primary_key=True)
+    file_name = Column(String, nullable=False)
+    file_created_date = Column(DateTime, default=func.now())
+    file_type_id = Column(Integer, ForeignKey('file_type.file_type_id'), nullable=False)
+    file_type = relationship("FileType")
+
 class Machine(Base):
     __tablename__ = 'machine'
     machine_id = Column(Integer, primary_key=True)
@@ -38,24 +46,6 @@ class Sensor(Base):
     created_date = Column(DateTime, default=func.now())
     sensor_type = relationship("SensorType")
 
-class MachineSensorMapping(Base):
-    __tablename__ = 'machine_sensor_mapping'
-    id = Column(Integer, primary_key=True)
-    machine_id = Column(Integer, ForeignKey('machine.machine_id'), nullable=False)
-    sensor_id = Column(Integer, ForeignKey('sensor.sensor_id'), nullable=False)
-    machine = relationship("Machine")
-    sensor = relationship("Sensor")
-
-class File(Base):
-    __tablename__ = 'file'
-    file_id = Column(Integer, primary_key=True)
-    file_name = Column(String, nullable=False)
-    file_created_date = Column(DateTime, default=func.now())
-    file_type_id = Column(Integer, ForeignKey('file_type.file_type_id'), nullable=False)
-    machine_sensor_mapping_id = Column(Integer, ForeignKey('machine_sensor_mapping.id'), nullable=True)
-    file_type = relationship("FileType")
-    machine_sensor_mapping = relationship("MachineSensorMapping")
-
 class Model(Base):
     __tablename__ = 'model'
     model_id = Column(Integer, primary_key=True)
@@ -66,6 +56,12 @@ class Model(Base):
     model_version = Column(String, nullable=True)
     model_type = Column(String, nullable=True)
     created_date = Column(DateTime, default=func.now())
+
+class MachineSensorMapping(Base):
+    __tablename__ = 'machine_sensor_mapping'
+    id = Column(Integer, primary_key=True)
+    machine_id = Column(Integer, ForeignKey('machine.machine_id'), nullable=False)
+    sensor_id = Column(Integer, ForeignKey('sensor.sensor_id'), nullable=False)
 
 class MachineSensorModelMapping(Base):
     __tablename__ = 'machine_sensor_model_mapping'
@@ -85,9 +81,11 @@ class Prediction(Base):
     prediction_value = Column(String, nullable=True)
     created_date = Column(DateTime, default=func.now())
 
+
 # User Table (Renamed to mcm_user)
 class McmUser(Base):
     __tablename__ = 'mcm_user'
+
     user_id = Column(Integer, primary_key=True)
     username = Column(String, nullable=False)
     email = Column(String, nullable=False)
@@ -96,17 +94,22 @@ class McmUser(Base):
     is_superuser = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)
 
+
 # Roles Table
 class Role(Base):
     __tablename__ = 'role'
+
     role_id = Column(Integer, primary_key=True)
     role_name = Column(String, nullable=False)
+
 
 # User Roles (Association Table)
 class UserRole(Base):
     __tablename__ = 'user_role'
+
     user_id = Column(Integer, ForeignKey('mcm_user.user_id'), primary_key=True)
     role_id = Column(Integer, ForeignKey('role.role_id'), primary_key=True)
+
     user = relationship("McmUser")
     role = relationship("Role")
 
