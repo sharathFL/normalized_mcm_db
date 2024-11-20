@@ -65,7 +65,6 @@ class Model(Base):
     model_branch = Column(String, nullable=False)
     model_version = Column(String, nullable=True)
     model_type = Column(String, nullable=True)
-    commit_hash = Column(String, nullable=True)  # New field for commit hash
     created_date = Column(DateTime, default=func.now())
 
 class MachineSensorModelMapping(Base):
