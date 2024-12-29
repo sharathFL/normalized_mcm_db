@@ -75,11 +75,11 @@ def add_or_update_model(
 add_or_update_model(
     machine_id=1,
     sensor_id=1,
-    model_name="TorchAutoEncoderModel_2",
-    model_description="Detects anomalies in machine sound data",
+    model_name="TorchAutoEncoderModel",
+    model_description="shallow model",
     model_repository_url="https://github.com/finite-loop/telescopii-mcm-model-builder.git",
     model_branch="org1",
     model_version="v1.0",
     model_type="Autoencoder",
-    commit_hash="8329678368a97ce4892c78a9c26594abfe3fad56"  # Example commit hash
+    commit_hash="2ecf2acb058ce6274dcba46b106a37c53c66101e"  # Example commit hash
 )

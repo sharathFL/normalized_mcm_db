@@ -13,7 +13,7 @@ services:
     ports:
       - "5435:5432"    # Expose external port 5435, internally use 5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mcm_db:/db_data   #remember to docker volume create mcm_db first
     networks:
       - mcm-network
 
@@ -42,4 +42,4 @@ networks:
         
 
 volumes:
-  postgres_data:
+  mcm_db:
